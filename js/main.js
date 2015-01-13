@@ -69,33 +69,28 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: p
 function preload () {
 
 	//Load the tilemap file
-	game.load.tilemap('map1', 'assets/Maps/ForestTest1.json', null, Phaser.Tilemap.TILED_JSON);
+	game.load.tilemap('map1', 'assets/Maps/Basic.json', null, Phaser.Tilemap.TILED_JSON);
 	//Load the spritesheet for the tilemap
-	game.load.image('tiles', 'assets/light_forest_tileset_0.png');
+	game.load.image('tiles', 'assets/basictiles_2.png');
 	game.load.spritesheet('character', 'assets/characters_1.png',16,16,96);
     game.load.image('logo', 'assets/logo.png');   
 }
 
 function create () {
-
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
     map = game.add.tilemap('map1');
-	//'ground' is the name of the spritesheet inside of Tiled Map Editor
-    map.addTilesetImage('Forestt', 'tiles');
-	//'Grass 1' is the name of a layer inside of Tiled Map Editor
-    map.setCollision(545);
+	//'cave' is the name of the spritesheet inside of Tiled Map Editor
+    map.addTilesetImage('basic', 'tiles');
+	map.setCollision(77);
+	//'Ground' is the name of a layer inside of Tiled Map Editor
 	layer = map.createLayer('Ground');
     layer.resizeWorld();
-    layer2 = map.createLayer('Foliage');
-    layer2.resizeWorld();	
 	
 	
     //  Resize our game world to be a 2000 x 2000 square
     game.world.setBounds(0, 0, 1600, 1600);
 	game.stage.disableVisibilityChange  = true;
-	
-    //  Our tiled scrolling background
-    //land = game.add.tileSprite(0, 0, 800, 600, 'earth');
-    //	land.fixedToCamera = true;
     
     CharactersList = {};
 	
@@ -143,11 +138,8 @@ function update () {
 	player.input.tx = game.input.x+ game.camera.x;
 	player.input.ty = game.input.y+ game.camera.y;
 	
-	
-    //land.tilePosition.x = -game.camera.x;
-    //land.tilePosition.y = -game.camera.y;
 
-    game.physics.arcade.collide(this.Character, layer2);	
+    //game.physics.arcade.collide(this.Character, layer2);	
 	
     for (var i in CharactersList)
     {
@@ -158,6 +150,7 @@ function update () {
 			if (!CharactersList[j]) continue;
 			if (CharactersList[j].alive)
 			{
+				game.physics.arcade.collide(CharactersList[j].Character, layer);	
 				CharactersList[j].update();
 			}			
 		}

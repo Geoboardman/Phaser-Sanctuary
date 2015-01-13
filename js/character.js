@@ -29,7 +29,7 @@ Character = function (index, game, player) {
     this.alive = true;
 
     this.Character = game.add.sprite(x, y, 'character');
-	this.Character.scale.setTo(1.5,1.5);
+	this.Character.scale.setTo(1,1);
     this.Character.anchor.set(0.5);
 
     this.Character.id = index;
@@ -86,7 +86,7 @@ Character.prototype.update = function() {
 	else
 	{
 		this.Character.body.velocity.x = 0;
-		this.Character.animations.stop(null, true);
+		//this.Character.animations.stop(null, true);
 	}
     if (this.cursor.up)
     {
@@ -101,7 +101,7 @@ Character.prototype.update = function() {
 	else 
 	{
 		this.Character.body.velocity.y = 0;
-		this.Character.animations.stop();
+		//this.Character.animations.stop();
 	}
 };
 
